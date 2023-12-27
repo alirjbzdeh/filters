@@ -1,14 +1,8 @@
 <script setup lang="ts">
-// read filters from url
-import { useProductList } from '~/store/productsList';
 
-const productListStore = useProductList()
-const router = useRouter()
-
-const customQueries = router.options.history.location.replace('/', '')
-
-productListStore.activeFiltersFromUrl(customQueries)
-
+definePageMeta({
+  middleware: ['filter']
+})
 
 </script>
 

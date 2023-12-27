@@ -79,9 +79,9 @@ const inputTranslator = {
             </div>
         </div>
     </div>
-    <template v-if="input.childrenObjs.length > 0 && isChecked">
+    <div v-if="input.childrenObjs.length > 0 && isChecked" class="mr-2">
         <component v-for="(inputInfo, index) in input.childrenObjs" :key="input.childrenObjs.length + index + 'input-container'" :input="inputInfo" :is="inputTranslator[inputInfo.type]" />
-    </template>
+    </div>
 </template>
 
 <style lang="scss" scoped>

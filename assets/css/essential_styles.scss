@@ -38,13 +38,13 @@ $purpleShadow: 0px 0px 35px -12px rgba(124,74,124,1);
     margin-top: 1rem;
 }
 .mr-1 {
-    margin-top: 1rem;
+    margin-right: 1rem;
 }
 .mr-2 {
-    margin-top: 2rem;
+    margin-right: 2rem;
 }
 .mr-3 {
-    margin-top: 3rem;
+    margin-right: 3rem;
 }
 .box-container {
     box-sizing: border-box;
@@ -53,5 +53,6 @@ $purpleShadow: 0px 0px 35px -12px rgba(124,74,124,1);
     -webkit-box-shadow: $purpleShadow;
     -moz-box-shadow: $purpleShadow;
     box-shadow: $purpleShadow;
+    overflow: hidden;
 
 }

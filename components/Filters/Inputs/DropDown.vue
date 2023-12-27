@@ -102,7 +102,7 @@ const inputTranslator = {
             </option>
         </select>
     </div>
-    <div class="sub-filter-container" v-if="input.childrenObjs?.length > 0 && selectedItem.length > 0">
+    <div v-if="input.childrenObjs?.length > 0 && selectedItem.length > 0">
         <component v-for="(inputInfo, index) in childInputs" :key="selectedItem.length + index + 'input-container'" :input="inputInfo" :is="inputTranslator[inputInfo.type]" />
     </div>
 </template>
