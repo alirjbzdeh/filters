@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <span v-if="['select-one','dropdown'].includes(filter.type)">
+    <span>
         {{ filter.name + ':\xa0' + filter.value.map(vals => vals.value) }}
     </span>
 </template>

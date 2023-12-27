@@ -11,7 +11,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <span v-if="filter.type === 'range'">
+    <span>
         {{ filter.name + ':\xa0' + commafy(filter.value[0].value) + '\xa0_\xa0' + commafy(filter.value[1].value) }}
     </span>
 </template>
