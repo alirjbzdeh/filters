@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'Bakh';
+    src:url('./fonts/YEKANBAKH-REGULAR-fa.woff2') format('woff2'),
+        url('./fonts/YEKANBAKH-REGULAR-fa.woff') format('woff');
+    font-style: normal;
+}
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Bakh';
+    direction: rtl;
+    overflow-x: hidden;
+}

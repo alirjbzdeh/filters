@@ -1,0 +1,57 @@
+// colors
+$purpleShadow: 0px 0px 35px -12px rgba(124,74,124,1);
+
+.flex {
+    display: flex;
+} 
+.flex-row {
+    flex-direction: row;
+}
+.flex-col {
+    flex-direction: column;
+}
+.w-full {
+    width: 100%;
+}
+.justify-between {
+    justify-content: space-between;
+} 
+.items-center {
+    align-items: center;
+}
+.wrap {
+    flex-wrap: wrap;
+} 
+.g12 {
+    gap: 12px;
+}
+.g24 {
+    gap: 24px;
+}
+.g64 {
+    gap: 64px;
+}
+.pt-1 {
+    padding-top: 1rem;
+}
+.mt-1 {
+    margin-top: 1rem;
+}
+.mr-1 {
+    margin-top: 1rem;
+}
+.mr-2 {
+    margin-top: 2rem;
+}
+.mr-3 {
+    margin-top: 3rem;
+}
+.box-container {
+    box-sizing: border-box;
+    border-radius: 8px;
+    padding: 24px;
+    -webkit-box-shadow: $purpleShadow;
+    -moz-box-shadow: $purpleShadow;
+    box-shadow: $purpleShadow;
+
+}

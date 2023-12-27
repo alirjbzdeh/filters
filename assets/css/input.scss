@@ -1,0 +1,84 @@
+.input-label{
+    .my-form-control{
+        input{
+            border: none !important;
+            outline: none !important;
+            direction: ltr;
+        }
+        height: 34px;
+        border-bottom: 1px solid grey;
+    }
+}
+.err{
+    color: $red;
+    fill: $red;
+    position: absolute;
+    bottom: -20px;
+    right: 0;
+}
+.global-input{
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 12px;
+    width: 100%;
+    outline: none !important;
+    transition: 300ms;
+    &:hover{
+        border-color: $purple2;
+    }
+    &:focus{
+        border-color: $purpleMain;
+    }
+}
+
+// New Input V2
+
+.my-input{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    border: 1px solid transparent;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background-color: $grey6;
+    outline: 0 !important;
+    border: 1px solid transparent;
+    transition: 300ms;
+    &.error-input{
+        border: 1px solid $red1 !important;
+    }
+    &:hover{
+        border-color: $purple2;
+    }
+    &:focus-within{
+        border-color: $purpleMain;
+    }
+    &::placeholder{
+        font-size: clamp(12px,1vw,14px);
+        font-weight: 400;
+        color: $grey3;
+    }
+    input{
+        outline: 0 !important;
+        border: 0 !important;
+        background-color: transparent;
+        &::placeholder{
+            font-size: clamp(12px,1vw,14px);
+            font-weight: 400;
+            color: $grey3;
+        }
+    }
+}
+.ltr-input{
+    direction: ltr;
+    &::placeholder{
+        text-align: right;
+    }
+}
+.input-err{
+    // position: absolute;
+    right: 0;
+    bottom: -18px;
+    z-index: 1;
+}
