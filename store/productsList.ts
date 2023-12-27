@@ -1,18 +1,8 @@
 import data from '~/helpers/data.js'
 import { filterToQuery, QueryToFilters } from '~/helpers/index'
-import type { FilterValueType } from '~/helpers/globalTypes'
+import type { FilterValueType, ActiveFilter } from '~/helpers/globalTypes'
 
-// input types that we use 
-// NOTE : select-one type is as the same as dropdown
-type inputTypes = 'checkbox' | 'range' | 'text' | 'select-one'
 
-interface ActiveFilter {
-  enName?: string
-  parent?: string
-  type: inputTypes,
-  name: string,
-  value: FilterValueType[],
-}
 
 interface ProductListInterface {
   sortedFilters: Record<string, any>[]
@@ -32,7 +22,6 @@ function sortFilters (selectiveFilter?: Record<string, any>) {
   })
   // remove child filters
   return withChildrenObj.filter(product => product.parent === null)
-  // return withChildrenObj
 } 
 
 function sortActiveFilters (selectiveFilter: Record<string, any>, actualFilterObj: Record<string, any>[]) {
@@ -67,9 +56,7 @@ export const useProductList = defineStore('profuctList', {
       activeFiltersFromUrl (query: string) {
         const filterObj = QueryToFilters(query, '&', '=', ',')
         const filterNames = filterObj.map(filter => filter.name)
-        
         this.activeFilters = sortActiveFilters(filterNames, filterObj)
-        
       },
       setActiveFilter (selectedFilter: ActiveFilter) {
         this.activeFilters.push(selectedFilter)
