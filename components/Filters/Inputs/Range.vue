@@ -18,6 +18,9 @@ const filterIndex = productListStore.activeFilters.findIndex(filter => filter.na
 
 
 const handleChange = () => {
+    if (filterIndex !== -1) {
+        productListStore.clearFilterItem(filterIndex)
+    }
   productListStore.onChange({
     enName: props.input.name,
     parent: props.input.parent,

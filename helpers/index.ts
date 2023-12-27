@@ -14,6 +14,8 @@ export function debounce(func: Function, delay: number) {
       }, delay);
     };
 }
+
+
 export function commafy( num: number | string ) {
     var str = num.toString().split('.');
     if (str[0].length >= 5) {
@@ -24,6 +26,8 @@ export function commafy( num: number | string ) {
     }
     return str.join('.');
 }
+
+
 export function filterToQuery(filters: ActiveFilter[]) {
   const keyValueFilters = filters.map(filter => {
     return {
@@ -34,11 +38,10 @@ export function filterToQuery(filters: ActiveFilter[]) {
   const finalQuery = keyValueFilters.map((filter, index) => `${index===0 ? '?' : '&'}${filter.key}=${filter.value.map((subFilter, j) => subFilter.value)}`)
   return finalQuery.join("")
 }
-export function QueryToFilters(query: string, filterSeprator: string, valueSeprator: string, subValueSeprator: string) {
-  const queryStr = query.replace('?', '')
-  const filtersStr = queryStr.split(filterSeprator)
 
-  const keyValFilter = filtersStr.map((filter, index) => {
+
+export function QueryToFilters(query: string, filterSeprator: string, valueSeprator: string, subValueSeprator: string) {
+  const keyValFilter = query.replace('?', '').split(filterSeprator).map((filter, index) => {
     return {
       name: filter.split(valueSeprator)[0],
       value: filter.split(valueSeprator)[1]

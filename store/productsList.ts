@@ -128,6 +128,7 @@ export const useProductList = defineStore('profuctList', {
       },
       clearAllFilters () {
         this.activeFilters.splice(0, this.activeFilters.length);
+        navigateTo(''+ filterToQuery(this.activeFilters))
       },
       onChange (filter: ActiveFilter) {
         const existFilterIndex = this.activeFilters.findIndex(activeFilter => activeFilter.name === filter.name)
