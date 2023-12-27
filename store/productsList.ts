@@ -35,12 +35,13 @@ function sortFilters (selectiveFilter?: Record<string, any>) {
   // return withChildrenObj
 } 
 
-function sortActiveFilters (selectiveFilter: Record<string, any>, sortedFilters: Record<string, any>[], actualFilterObj: Record<string, any>[]) {
-  const parentActiveFiltersFilters = sortedFilters.filter(filter=> selectiveFilter.includes(filter.name))
-  console.log('actualFilterObj', actualFilterObj);
-  return parentActiveFiltersFilters.map(filter => {
+function sortActiveFilters (selectiveFilter: Record<string, any>, actualFilterObj: Record<string, any>[]) {
+  
+  const parentActiveFilters = data.filter(filter=> selectiveFilter.includes(filter.name))
+  
+  return parentActiveFilters.map(filter => {
     const currentFilter = actualFilterObj.filter(actualFilter =>  actualFilter.name === filter.name)[0]
-    console.log('currentFilter', currentFilter);
+    
     
     return {
       enName: filter.name,
@@ -67,8 +68,7 @@ export const useProductList = defineStore('profuctList', {
         const filterObj = QueryToFilters(query, '&', '=', ',')
         const filterNames = filterObj.map(filter => filter.name)
         
-        this.activeFilters = sortActiveFilters(filterNames, this.sortedFilters, filterObj)
-        console.log('this.activeFilters', this.activeFilters);
+        this.activeFilters = sortActiveFilters(filterNames, filterObj)
         
       },
       setActiveFilter (selectedFilter: ActiveFilter) {
@@ -137,6 +137,7 @@ export const useProductList = defineStore('profuctList', {
           this.updateActiveFilter(filter, existFilterIndex, filter.type)
         }
         navigateTo(''+ filterToQuery(this.activeFilters))
+        
       },
     },
   })

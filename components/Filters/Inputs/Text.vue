@@ -33,7 +33,6 @@ const handleChange = (e: any) => {
 }
 
 
-const handleDebouncer = debounce(handleChange, 380)
 
 const inputVal = ref<string | number | null>(null)
 
@@ -52,7 +51,7 @@ onMounted(() => {
         <label :for="'inputField' + input.name">
             {{ input.label }}
         </label>
-        <input v-model="inputVal" type="text" :id="'inputField' + input.name" :name="input.name" class="styled-input" :placeholder="input.label" :data-label="input.label" @input="handleDebouncer">
+        <input v-model="inputVal" type="text" :id="'inputField' + input.name" :name="input.name" class="styled-input" :placeholder="input.label" :data-label="input.label" @input="handleChange">
     </div>
 </template>
 

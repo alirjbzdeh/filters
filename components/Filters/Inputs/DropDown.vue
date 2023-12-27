@@ -60,6 +60,24 @@ onMounted(() => {
 
 const childInputs = computed(() => props.input.childrenObjs.filter((inputChild: any) => [selectedItem.value[0].value, 'price-range'].includes(inputChild.name)))
 
+
+
+const checkboxGroup = resolveComponent('FiltersInputsCheckBoxGroup')
+const checkbox = resolveComponent('FiltersInputsCheckBox')
+const range = resolveComponent('FiltersInputsRange')
+const dropdown = resolveComponent('FiltersInputsDropDown')
+const text = resolveComponent('FiltersInputsText')
+
+
+
+const inputTranslator = {
+    'checkbox-group': checkboxGroup,
+    'checkbox': checkbox,
+    'text': text,
+    'dropdown': dropdown,
+    'range': range,
+}
+
 </script>
 
 <template>
@@ -85,11 +103,7 @@ const childInputs = computed(() => props.input.childrenObjs.filter((inputChild: 
         </select>
     </div>
     <div class="sub-filter-container" v-if="input.childrenObjs?.length > 0 && selectedItem.length > 0">
-            <FiltersInputs 
-                v-for="(inputInfo, index) in childInputs"
-                :key="selectedItem.length + index + 'input-container'"
-                :input="inputInfo"
-            />
+        <component v-for="(inputInfo, index) in childInputs" :key="selectedItem.length + index + 'input-container'" :input="inputInfo" :is="inputTranslator[inputInfo.type]" />
     </div>
 </template>
 

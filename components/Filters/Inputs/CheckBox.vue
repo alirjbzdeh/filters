@@ -37,6 +37,24 @@ onMounted(() => {
     }
 })
 
+
+const checkboxGroup = resolveComponent('FiltersInputsCheckBoxGroup')
+const checkbox = resolveComponent('FiltersInputsCheckBox')
+const range = resolveComponent('FiltersInputsRange')
+const dropdown = resolveComponent('FiltersInputsDropDown')
+const text = resolveComponent('FiltersInputsText')
+
+
+
+const inputTranslator = {
+    'checkbox-group': checkboxGroup,
+    'checkbox': checkbox,
+    'text': text,
+    'dropdown': dropdown,
+    'range': range,
+}
+
+
 </script>
 
 <template>
@@ -62,7 +80,7 @@ onMounted(() => {
         </div>
     </div>
     <template v-if="input.childrenObjs.length > 0 && isChecked">
-        <FiltersInputs v-for="(inputInfo, index) in input.childrenObjs" :key="index + 'input-container' + isChecked" :input="inputInfo" />
+        <component v-for="(inputInfo, index) in input.childrenObjs" :key="input.childrenObjs.length + index + 'input-container'" :input="inputInfo" :is="inputTranslator[inputInfo.type]" />
     </template>
 </template>
 

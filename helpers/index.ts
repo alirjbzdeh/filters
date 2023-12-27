@@ -32,14 +32,11 @@ export function filterToQuery(filters: ActiveFilter[]) {
     }
   })
   const finalQuery = keyValueFilters.map((filter, index) => `${index===0 ? '?' : '&'}${filter.key}=${filter.value.map((subFilter, j) => subFilter.value)}`)
-  QueryToFilters(finalQuery.toString(), '&', '=', ',')
-  return finalQuery.toString()
+  return finalQuery.join("")
 }
 export function QueryToFilters(query: string, filterSeprator: string, valueSeprator: string, subValueSeprator: string) {
   const queryStr = query.replace('?', '')
   const filtersStr = queryStr.split(filterSeprator)
-  
-  const activeFilters = [];
 
   const keyValFilter = filtersStr.map((filter, index) => {
     return {

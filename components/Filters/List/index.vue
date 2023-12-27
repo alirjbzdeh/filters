@@ -21,8 +21,8 @@ const clearFilter = (filter: ActiveFilter, index: number) => {
     <div class="flex flex-row wrap g12">
         <div v-for="(filter, index) in productListStore.activeFilters" :key="'filters_list' + index" class="item" @click="clearFilter(filter, index)">
             <FiltersListCheckBox :filter="filter" />
-            <span v-if="filter.type === 'select-one'">
-                {{ filter.name + ':\xa0' + filter.value.map(vals => vals.title) }}
+            <span v-if="['select-one','dropdown'].includes(filter.type)">
+                {{ filter.name + ':\xa0' + filter.value.map(vals => vals.value) }}
             </span>
             <FiltersListText :filter="filter" :key="filter.value.length + 'text_Filter'" />
             <span v-if="filter.type === 'range'">
