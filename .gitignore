@@ -6,6 +6,9 @@
 .cache
 dist
 
+# my tools
+AliTools.js
+
 # Node dependencies
 node_modules
 

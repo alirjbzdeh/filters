@@ -6,9 +6,9 @@ export type FilterValueType =  {
 export type inputTypes = 'checkbox' | 'range' | 'text' | 'select-one'
 
 export interface ActiveFilter {
-    enName?: string
+    enName?: string // name
     parent?: string
     type: inputTypes,
-    name: string,
+    name: string, // label
     value: FilterValueType[],
 }

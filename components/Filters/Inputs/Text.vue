@@ -51,7 +51,7 @@ onMounted(() => {
         <label :for="'inputField' + input.name">
             {{ input.label }}
         </label>
-        <input v-model="inputVal" type="text" :id="'inputField' + input.name" :name="input.name" class="styled-input" :placeholder="input.label" :data-label="input.label" @input="handleChange">
+        <input v-model="inputVal" type="text" :id="'inputField' + input.name" :name="input.name" class="styled-input" :placeholder="input.label" :data-label="input.label" @change="handleChange">
     </div>
 </template>
 

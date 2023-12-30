@@ -27,16 +27,19 @@ function sortFilters (selectiveFilter?: Record<string, any>) {
 function sortActiveFilters (selectiveFilter: Record<string, any>, actualFilterObj: Record<string, any>[]) {
   
   const parentActiveFilters = data.filter(filter=> selectiveFilter.includes(filter.name))
-  
+  // step 2 sort by index to match the actualFilterObj and parentActiveFilters with index (use chatGPT)
+  // set index in map
   return parentActiveFilters.map(filter => {
     const currentFilter = actualFilterObj.filter(actualFilter =>  actualFilter.name === filter.name)[0]
     
-    
+    // return {...filter, value}
+    // value
     return {
       enName: filter.name,
       parent: filter.parent,
-      type: filter.type.replace('-group', ''),
+      type: filter.type.replace('-group', ''), // add group type
       name: filter.label,
+      // set value from actualFilterObj[index].value
       value: currentFilter.value.map(actualFilter => {return {
         title: filter.label,
         value: actualFilter
