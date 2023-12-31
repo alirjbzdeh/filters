@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useProductList } from '~/store/productsList';
+import { useProductList } from '~/store/productsFilter';
 import { debounce } from '~/helpers'
 
 const props = defineProps({
@@ -16,23 +16,18 @@ const productListStore = useProductList()
 const filterIndex = productListStore.activeFilters.findIndex(filter => filter.name === props.input.label)
 
 const handleChange = (e: any) => {
-  productListStore.clearFilterItem(filterIndex)
+  if (filterIndex !== -1) {
+    productListStore.clearFilterItem(filterIndex)
+  }
   inputVal.value = e.target.value
+  // send {...props.input, value:inputVal.value }
   if (inputVal.value) {
-    productListStore.onChange({
-      enName: props.input.name,
-      parent: props.input.parent,
-      type: 'text',
-      name: props.input.label,
-      value: [{
-        title: props.input.label,
-        value: inputVal.value
-      }]
-    })
+    productListStore.onChange({...props.input, value:inputVal.value })
   }
 }
 
 
+const handlerDebouncer = debounce(handleChange, 350)
 
 const inputVal = ref<string | number | null>(null)
 
@@ -51,7 +46,7 @@ onMounted(() => {
         <label :for="'inputField' + input.name">
             {{ input.label }}
         </label>
-        <input v-model="inputVal" type="text" :id="'inputField' + input.name" :name="input.name" class="styled-input" :placeholder="input.label" :data-label="input.label" @change="handleChange">
+        <input v-model="inputVal" type="text" :id="'inputField' + input.name" :name="input.name" class="styled-input" :placeholder="input.label" :data-label="input.label" @input="handlerDebouncer">
     </div>
 </template>
 

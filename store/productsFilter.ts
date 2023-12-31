@@ -66,6 +66,10 @@ export const useProductList = defineStore('profuctList', {
       },
       // needs to Refactor
       updateActiveFilter (selectedFilter: ActiveFilter, existFilterIndex: number, selectedFilterType: string) {
+        // check if active filter is checkbox group or not
+        // if value included 
+
+        
         // new Value
         const selectedFilterValue = selectedFilter.value[0]
         // old Value
@@ -125,10 +129,10 @@ export const useProductList = defineStore('profuctList', {
         if (existFilterIndex === -1) {
           this.setActiveFilter(filter)
         } else {
+          // just send value and index
           this.updateActiveFilter(filter, existFilterIndex, filter.type)
         }
         navigateTo(''+ filterToQuery(this.activeFilters))
-        
       },
     },
   })

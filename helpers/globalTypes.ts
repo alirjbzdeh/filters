@@ -3,12 +3,14 @@ export type FilterValueType =  {
     value: string | number
 }
 // NOTE : select-one type is as the same as dropdown
-export type inputTypes = 'checkbox' | 'range' | 'text' | 'select-one'
+export type inputTypes = 'checkbox' | 'range' | 'text' | 'select-one' | 'checkbox-group'
 
 export interface ActiveFilter {
-    enName?: string // name
     parent?: string
     type: inputTypes,
-    name: string, // label
-    value: FilterValueType[],
+    name: string,
+    label: string,
+    children: ActiveFilter[],
+    options: FilterValueType[],
+    value: (string | number)[],
 }

@@ -1,4 +1,4 @@
-import { useProductList } from '~/store/productsList';
+import { useProductList } from '~/store/productsFilter';
 
 
 export default defineNuxtRouteMiddleware((to, from) => {

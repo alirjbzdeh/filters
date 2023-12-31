@@ -1,6 +1,6 @@
 
 <script setup lang="ts">
-import { useProductList } from '~/store/productsList';
+import { useProductList } from '~/store/productsFilter';
 import type { ActiveFilter } from '~/helpers/globalTypes'
 
 const productListStore = useProductList()
@@ -9,6 +9,9 @@ const clearFilter = (filter: ActiveFilter, index: number) => {
   filter.value.map(filterVals => productListStore.clearChildFilters(filterVals))
   productListStore.clearFilterItem(index)
 }
+
+const RangeInputComponent = resolveComponent('FiltersListRange')
+const NotRangeInputComponent = resolveComponent('FiltersListNotRange')
 
 </script>
 
@@ -20,8 +23,7 @@ const clearFilter = (filter: ActiveFilter, index: number) => {
     <div class="flex flex-row wrap g12">
         <FiltersListClearAll v-if="productListStore.activeFilters.length > 0" />
         <div v-for="(filter, index) in productListStore.activeFilters" :key="'filters_list' + index" class="item" @click="clearFilter(filter, index)">
-            <FiltersListRange v-if="filter.type === 'range'" :filter="filter" />
-            <FiltersListNotRange v-else :filter="filter" />
+            <component :is=" filter.type === 'range' ? RangeInputComponent : NotRangeInputComponent" :filter="filter" />
             <ToolsCloseIcon />
         </div>
     </div>

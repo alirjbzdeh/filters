@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useProductList } from '~/store/productsList';
-import type { FilterValueType } from '~/helpers/globalTypes'
+import { useProductList } from '~/store/productsFilter';
+import type { FilterValueType, ActiveFilter } from '~/helpers/globalTypes'
 const productListStore = useProductList()
 
 const props = defineProps({
     input: {
-        type: Object,
+        type: Object as PropType<ActiveFilter>,
         default: {},
         required: true
     }
@@ -14,16 +14,8 @@ const props = defineProps({
 const handleChange = (item: FilterValueType) => {
     
   productListStore.onChange({
-    enName: props.input.name,
-    parent: props.input.parent,
-    type: 'checkbox',
-    name: props.input.label,
-    value: [
-        {
-            title: item.title,
-            value: item.value
-        }
-    ]
+    ...props.input,
+    value: [item.value]
   })
 }
 
@@ -32,11 +24,10 @@ const checkboxes = ref()
 const filterIndex = productListStore.activeFilters.findIndex(filter => filter.name === props.input.label)
 
 const checkSelectedItems = () => {
-    const filterValues = productListStore.activeFilters[filterIndex]?.value?.map(filter => filter.value.toString())
-    
+    const filterValues = productListStore.activeFilters[filterIndex].value
     checkboxes.value.map((checkbox: any) => {
-        filterValues?.includes(checkbox.dataset.value) ? checkbox.checked = true : checkbox.checked = false
-    } )
+        filterValues.includes(checkbox.dataset.value) ? checkbox.checked = true : checkbox.checked = false
+    })
 }
 
 onMounted(() => {

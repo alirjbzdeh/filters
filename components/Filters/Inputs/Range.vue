@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { commafy, debounce } from '~/helpers'
-import { useProductList } from '~/store/productsList';
+import { useProductList } from '~/store/productsFilter';
 
 const props = defineProps({
     input: {

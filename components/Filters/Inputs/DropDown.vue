@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useProductList } from '~/store/productsList';
-import type { FilterValueType } from '~/helpers/globalTypes'
+import { useProductList } from '~/store/productsFilter';
+import type { FilterValueType, ActiveFilter } from '~/helpers/globalTypes'
 const productListStore = useProductList()
 
 // props
 const props = defineProps({
     input: {
-        type: Object,
+        type: Object as PropType<ActiveFilter>,
         default: {},
         required: true
     }
@@ -31,11 +31,8 @@ const handleChange = (e: any) => {
         }
         )
         productListStore.onChange({
-            enName: props.input.name,
-            parent: props.input.parent,
-            type: 'select-one',
-            name: props.input.label,
-            value: selectedItem.value
+            ...props.input,
+            value: [selectedItem.value[0]?.value]
         })
     } else {
         productListStore.clearFilterItem(filterIndex)

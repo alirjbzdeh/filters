@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { useProductList } from '~/store/productsList';
+import { useProductList } from '~/store/productsFilter';
+import type { ActiveFilter } from '~/helpers/globalTypes'
 
 const productListStore = useProductList()
 
 const props = defineProps({
     input: {
-        type: Object,
+        type: Object as PropType<ActiveFilter>,
         default: {},
         required: true
     }
@@ -14,22 +15,14 @@ const props = defineProps({
 
 const handleChange = () => {
   productListStore.onChange({
-    enName: props.input.name,
-    parent: props.input.parent,
-    type: 'checkbox',
-    name: props.input.label,
-    value: [
-        {
-            title: props.input.options[0].title,
-            value: props.input.options[0].value
-        }
-    ]
+    ...props.input,
+    value: [props.input.options[0].value]
   })
 }
 
 const isChecked = ref<boolean>(false)
 
-const filterIndex = productListStore.activeFilters.findIndex(filter => filter.name === props.input.label)
+const filterIndex = productListStore.activeFilters.findIndex(filter => filter.label === props.input.label)
 
 onMounted(() => {
     if (productListStore.activeFilters[filterIndex]) {

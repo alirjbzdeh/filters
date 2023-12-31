@@ -1,6 +1,6 @@
 
 <script setup lang="ts">
-import { useProductList } from '~/store/productsList';
+import { useProductList } from '~/store/productsFilter';
 
 const productListStore = useProductList()
 
