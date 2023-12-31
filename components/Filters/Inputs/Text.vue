@@ -1,39 +1,42 @@
 <script setup lang="ts">
 import { useProductList } from '~/store/productsFilter';
+import type { FilterObj } from '~/helpers/globalTypes'
 import { debounce } from '~/helpers'
+
+const productListStore = useProductList()
 
 const props = defineProps({
     input: {
-        type: Object,
+        type: Object as PropType<FilterObj>,
         default: {},
         required: true
     }
 })
+const inputVal = ref<string | number | null>(null)
+const filterIndex = productListStore.activeFilters.findIndex(filter => filter.name === props.input.name)
 
+const getInputValFromStore = () => {
+  inputVal.value = productListStore.activeFilters[filterIndex]?.value[0]
+}
 
-const productListStore = useProductList()
-
-const filterIndex = productListStore.activeFilters.findIndex(filter => filter.name === props.input.label)
 
 const handleChange = (e: any) => {
   if (filterIndex !== -1) {
     productListStore.clearFilterItem(filterIndex)
   }
-  inputVal.value = e.target.value
-  // send {...props.input, value:inputVal.value }
   if (inputVal.value) {
-    productListStore.onChange({...props.input, value:inputVal.value })
+    productListStore.onChange({
+        name: props.input.name,
+        value: [inputVal.value]
+    })
   }
 }
 
 
 const handlerDebouncer = debounce(handleChange, 350)
 
-const inputVal = ref<string | number | null>(null)
 
-const getInputValFromStore = () => {
-  inputVal.value = productListStore.activeFilters[filterIndex]?.value[0]?.value
-}
+
 
 onMounted(() => {
   getInputValFromStore()

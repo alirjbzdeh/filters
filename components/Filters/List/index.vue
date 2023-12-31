@@ -1,17 +1,10 @@
 
 <script setup lang="ts">
 import { useProductList } from '~/store/productsFilter';
-import type { ActiveFilter } from '~/helpers/globalTypes'
-
 const productListStore = useProductList()
 
-const clearFilter = (filter: ActiveFilter, index: number) => {
-  filter.value.map(filterVals => productListStore.clearChildFilters(filterVals))
-  productListStore.clearFilterItem(index)
-}
 
-const RangeInputComponent = resolveComponent('FiltersListRange')
-const NotRangeInputComponent = resolveComponent('FiltersListNotRange')
+
 
 </script>
 
@@ -22,10 +15,7 @@ const NotRangeInputComponent = resolveComponent('FiltersListNotRange')
     </h3>
     <div class="flex flex-row wrap g12">
         <FiltersListClearAll v-if="productListStore.activeFilters.length > 0" />
-        <div v-for="(filter, index) in productListStore.activeFilters" :key="'filters_list' + index" class="item" @click="clearFilter(filter, index)">
-            <component :is=" filter.type === 'range' ? RangeInputComponent : NotRangeInputComponent" :filter="filter" />
-            <ToolsCloseIcon />
-        </div>
+        <FiltersListBtn v-for="(filter, index) in productListStore.activeFilters" :key="'filters_list' + index" :filter="filter" :index="index" />
     </div>
    </div>
 </template>
@@ -33,21 +23,20 @@ const NotRangeInputComponent = resolveComponent('FiltersListNotRange')
 
 <style lang="scss" scoped>
 .item {
+    border: none !important;
     display: flex;
     flex-direction: row;
     align-items: center;
     cursor: pointer;
     gap: 4px;
-    padding: 4px 8px;
+    padding: 8px 12px;
     background-color: rgb(206, 107, 107);
     border-radius: 8px;
     height: max-content;
     transition: 300ms;
+    color: white;
     &:hover {
         background-color: rgb(226, 68, 68);
-    }
-    span {
-        color: white;
     }
 }
 

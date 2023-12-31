@@ -1,34 +1,42 @@
 <script setup lang="ts">
 import { useProductList } from '~/store/productsFilter';
-import type { FilterValueType, ActiveFilter } from '~/helpers/globalTypes'
+import type { FilterObj } from '~/helpers/globalTypes'
 const productListStore = useProductList()
 
 const props = defineProps({
     input: {
-        type: Object as PropType<ActiveFilter>,
+        type: Object as PropType<FilterObj>,
         default: {},
         required: true
     }
 })
-
-const handleChange = (item: FilterValueType) => {
-    
-  productListStore.onChange({
-    ...props.input,
-    value: [item.value]
-  })
-}
-
 const checkboxes = ref()
 
-const filterIndex = productListStore.activeFilters.findIndex(filter => filter.name === props.input.label)
+const filterIndex = productListStore.activeFilters.findIndex(filter => filter.name === props.input.name)
 
 const checkSelectedItems = () => {
-    const filterValues = productListStore.activeFilters[filterIndex].value
+    const filterValues = productListStore.activeFilters[filterIndex]?.value
     checkboxes.value.map((checkbox: any) => {
-        filterValues.includes(checkbox.dataset.value) ? checkbox.checked = true : checkbox.checked = false
+        filterValues?.includes(checkbox.dataset.value) ? checkbox.checked = true : checkbox.checked = false
     })
 }
+
+const handleChange = (value: number | string) => {
+    
+    const activeFilterValueIndex = productListStore.activeFilters[filterIndex]?.value.findIndex(activeValue => activeValue === value.toString())
+    if ((activeFilterValueIndex && activeFilterValueIndex === -1) || activeFilterValueIndex === undefined) {
+        productListStore.onChange({
+          name: props.input.name,
+          value: [value.toString()]
+        })
+    } else {
+        productListStore.clearCheckboxGroupFilterSubItem(filterIndex, activeFilterValueIndex)
+    }
+    checkSelectedItems()
+}
+
+
+
 
 onMounted(() => {
     checkSelectedItems()
@@ -51,7 +59,7 @@ onMounted(() => {
                     :name="input.name"
                     :data-label="input.label"
                     :data-value="item.value"
-                    @click="handleChange(item)"
+                    @click="handleChange(item.value)"
                 >
                 <label :for="'checkbox_group_' + item.title" class="checkbox-label">
                     {{ item.title }}

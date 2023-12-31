@@ -21,4 +21,11 @@ definePageMeta({
     gap: 24px;
     grid-template-columns: 1fr 2fr;
 }
+@media only screen and (max-width: 1250px) {
+    .list-page-container {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+}
 </style>

@@ -1,42 +1,40 @@
 <script setup lang="ts">
 import { commafy, debounce } from '~/helpers'
+import type { FilterObj } from '~/helpers/globalTypes'
 import { useProductList } from '~/store/productsFilter';
 
 const props = defineProps({
     input: {
-        type: Object,
+        type: Object as PropType<FilterObj>,
         default: {},
         required: true
     }
 })
 
-
+const slider1Ref = ref<any>(null)
+const slider2Ref = ref<any>(null)
+const sliderTrackRef = ref<any>(null)
 
 const productListStore = useProductList()
 
-const filterIndex = productListStore.activeFilters.findIndex(filter => filter.name === props.input.label)
+const filterIndex = productListStore.activeFilters.findIndex(filter => filter.name === props.input.name)
+
+const getInputValFromStore = () => {
+    if (productListStore.activeFilters[filterIndex]) {
+        data.value.slider1 = productListStore.activeFilters[filterIndex]?.value[0]
+        data.value.slider2 = productListStore.activeFilters[filterIndex]?.value[1]
+    }
+}
 
 
 const handleChange = () => {
     if (filterIndex !== -1) {
         productListStore.clearFilterItem(filterIndex)
     }
-  productListStore.onChange({
-    enName: props.input.name,
-    parent: props.input.parent,
-    type: 'range',
-    name: props.input.label,
-    value: [
-        {
-            title: 'min',
-            value: data.value.slider1
-        },
-        {
-            title: 'max',
-            value: data.value.slider2
-        }
-    ]
-  })
+    productListStore.onChange({
+        name: props.input.name,
+        value: [data.value.slider1, data.value.slider2]
+    })
 }
 
 
@@ -47,9 +45,6 @@ const data = ref({
     slider2: props.input.options[1].value,
 })
 
-const slider1Ref = ref<any>(null)
-const slider2Ref = ref<any>(null)
-const sliderTrackRef = ref<any>(null)
 
 const fillColor = () => {
     let percent1 = (data.value.slider1 / slider1Ref.value.max) * 100
@@ -74,13 +69,6 @@ const slideTwo = () => {
     }
     fillColor()
     handleChangeDebouncer()
-}
-
-const getInputValFromStore = () => {
-    if (productListStore.activeFilters[filterIndex]) {
-        data.value.slider1 = productListStore.activeFilters[filterIndex]?.value[0]?.value
-        data.value.slider2 = productListStore.activeFilters[filterIndex]?.value[1]?.value
-    }
 }
 
 const slidersInit = () => {

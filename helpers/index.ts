@@ -29,29 +29,28 @@ export function commafy( num: number | string ) {
 
 
 export function filterToQuery(filters: ActiveFilter[]) {
-  const keyValueFilters = filters.map(filter => {
-    return {
-      key: filter.enName,
-      value: filter.value
-    }
+  return '?' + filters.map(filter => {
+    const values = filter.value.join(',');
+    return `${filter.name}~${values}`;
   })
-  const finalQuery = keyValueFilters.map((filter, index) => `${index===0 ? '?' : '&'}${filter.key}=${filter.value.map((subFilter, j) => subFilter.value)}`)
-  return finalQuery.join("")
+  .join('&');
 }
 
 
-export function QueryToFilters(query: string, filterSeprator: string, valueSeprator: string, subValueSeprator: string) {
-  const keyValFilter = query.replace('?', '').split(filterSeprator).map((filter, index) => {
-    return {
-      name: filter.split(valueSeprator)[0],
-      value: filter.split(valueSeprator)[1]
-    }
-    
-  })
-  return keyValFilter.map(filter => {
-    return {
-      name: filter.name,
-      value: filter.value?.split(subValueSeprator)
-    }
-  })
+export function QueryToFilters(query: string) {
+  const params = new URLSearchParams(query);
+  const result: ActiveFilter[] = [];
+
+  for (const param of params) {
+    const name = param[0].split('~')[0] 
+    const value = param[0].split('~')[1] 
+    result.push(
+      {
+        name: name,
+        value: value.split(',').map(item => decodeURIComponent(item))
+      }
+    )
+  }
+  
+  return result;
 }

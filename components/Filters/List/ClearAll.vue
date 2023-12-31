@@ -1,10 +1,10 @@
 <template>
-    <div class="item" @click="productListStore.clearAllFilters(filter, index)">
+    <button class="item" @click.prevent="productListStore.clearAllFilters">
         <span>
             حذف همه
         </span>
         <ToolsCloseIcon />
-    </div>
+    </button>
 </template>
 
 <script setup lang="ts">

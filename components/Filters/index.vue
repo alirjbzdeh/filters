@@ -1,6 +1,8 @@
 
 <script setup lang="ts">
 import { useProductList } from '~/store/productsFilter';
+import data from '~/helpers/data.js'
+import type { FilterObj } from '~/helpers/globalTypes'
 
 const productListStore = useProductList()
 
@@ -12,21 +14,23 @@ const text = resolveComponent('FiltersInputsText')
 
 
 
-const inputTranslator = {
+const inputTranslator: Record<string, any> = {
     'checkbox-group': checkboxGroup,
     'checkbox': checkbox,
     'text': text,
     'dropdown': dropdown,
+    'select-one': dropdown,
     'range': range,
 }
 
+const parentFilters = computed(() => data.filter(filter => filter.parent === null))
 
 </script>
 
 <template>
     <form class="flex flex-col g12 box-container" @submit.prevent>
         <FiltersList :key="productListStore.activeFilters.length" />
-        <component v-for="(inputInfo, index) in productListStore.sortedFilters" :key="productListStore.activeFilters.length + index + 'input-container'" :input="inputInfo" :is="inputTranslator[inputInfo.type]" />
+        <component v-for="(inputInfo, index) in parentFilters" :key="productListStore.activeFilters.length + index + 'input-container'" :input="inputInfo" :is="inputTranslator[inputInfo.type]" />
     </form>
 </template>
 

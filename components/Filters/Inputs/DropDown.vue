@@ -1,61 +1,57 @@
 <script setup lang="ts">
 import { useProductList } from '~/store/productsFilter';
-import type { FilterValueType, ActiveFilter } from '~/helpers/globalTypes'
+import type { FilterObj } from '~/helpers/globalTypes'
+import data from '~/helpers/data.js'
 const productListStore = useProductList()
 
 // props
 const props = defineProps({
     input: {
-        type: Object as PropType<ActiveFilter>,
+        type: Object as PropType<FilterObj>,
         default: {},
         required: true
     }
 })
 
-const selectedItem = ref<FilterValueType[]>([])
+const selectedItem = ref()
 
-// its not working in handlechange func for some reason
-const filterIndex = productListStore.activeFilters.findIndex(filter => filter.name === props.input.label)
-
-const handleChange = (e: any) => {
-    const item = props.input.options.find((option: FilterValueType) => e.target.value.toString() === option.value.toString())
-    if (selectedItem.value.length > 0) {
-        productListStore.clearChildFilters(selectedItem.value[0])
-    }
-    if (item) {
-        selectedItem.value.splice(0, 1)
-        selectedItem.value.push(
-        {
-            title: item.title,
-            value: item.value
-        }
-        )
-        productListStore.onChange({
-            ...props.input,
-            value: [selectedItem.value[0]?.value]
-        })
-    } else {
-        productListStore.clearFilterItem(filterIndex)
-    }
-}
-
-
-
-
+const filterIndex = productListStore.activeFilters.findIndex(filter => filter.name === props.input.name)
 
 const updateDropDownValue = () => {
-    const activeFilter = productListStore.activeFilters[filterIndex]
     
-    if (activeFilter?.name === props.input.label) {
-        selectedItem.value.push(activeFilter.value[0])
+    const activeFilter = productListStore.activeFilters[filterIndex]?.value[0]
+    if (activeFilter) {
+        selectedItem.value.value = activeFilter
+    } else {
+        selectedItem.value.value = 'clear'
     }
 }
+
+const handleChange = (e: any) => {
+    productListStore.clearChildren(props.input.children)
+    if (e.target.value === 'clear') {
+        productListStore.clearFilterItem(filterIndex)
+    } else {
+        productListStore.onChange({
+            name: props.input.name,
+            value: [e.target.value]
+        })
+    }
+    updateDropDownValue()
+}
+
+
+
+
+
+
 onMounted(() => {
     updateDropDownValue()
 })
 
+const inputChilds = computed(() => data.filter(filter => props.input.children?.includes(filter.name)))
 
-const childInputs = computed(() => props.input.childrenObjs.filter((inputChild: any) => [selectedItem.value[0].value, 'price-range'].includes(inputChild.name)))
+const relatetoValueChilds = computed(() => inputChilds.value.filter(filter => [selectedItem.value?.value, 'price-range'].includes(filter.name)))
 
 
 
@@ -67,7 +63,7 @@ const text = resolveComponent('FiltersInputsText')
 
 
 
-const inputTranslator = {
+const inputTranslator: Record<string, any> = {
     'checkbox-group': checkboxGroup,
     'checkbox': checkbox,
     'text': text,
@@ -82,7 +78,7 @@ const inputTranslator = {
         <h4>
             {{ input.label }}
         </h4>
-        <select class="dropdown-content" :id="'select_option_'+input.name" :data-label="input.label" @change="handleChange" :value="selectedItem[0]?.value ? selectedItem[0]?.value : 'clear'">
+        <select class="dropdown-content" :id="'select_option_'+input.name" ref="selectedItem" :data-label="input.label" @change="handleChange">
             <option
                 name="همه"
                 value="clear"
@@ -99,8 +95,8 @@ const inputTranslator = {
             </option>
         </select>
     </div>
-    <div v-if="input.childrenObjs?.length > 0 && selectedItem.length > 0">
-        <component v-for="(inputInfo, index) in childInputs" :key="selectedItem.length + index + 'input-container'" :input="inputInfo" :is="inputTranslator[inputInfo.type]" />
+    <div v-if="relatetoValueChilds.length > 0 && (!!selectedItem?.value && selectedItem?.value !== 'clear')" class="mr-2">
+        <component v-for="(inputInfo, index) in relatetoValueChilds" :key="selectedItem.length + index + 'input-container'" :input="inputInfo" :is="inputTranslator[inputInfo.type]" />
     </div>
 </template>
 

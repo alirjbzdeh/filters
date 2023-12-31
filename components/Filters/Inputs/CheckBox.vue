@@ -1,33 +1,46 @@
 <script setup lang="ts">
 import { useProductList } from '~/store/productsFilter';
-import type { ActiveFilter } from '~/helpers/globalTypes'
+import type { FilterObj } from '~/helpers/globalTypes'
+import data from '~/helpers/data.js'
 
 const productListStore = useProductList()
 
 const props = defineProps({
     input: {
-        type: Object as PropType<ActiveFilter>,
+        type: Object as PropType<FilterObj>,
         default: {},
         required: true
     }
 })
 
-
-const handleChange = () => {
-  productListStore.onChange({
-    ...props.input,
-    value: [props.input.options[0].value]
-  })
-}
-
 const isChecked = ref<boolean>(false)
+const filterIndex = productListStore.activeFilters.findIndex(filter => filter.name === props.input.name)
 
-const filterIndex = productListStore.activeFilters.findIndex(filter => filter.label === props.input.label)
-
-onMounted(() => {
+const readInputValueFromStore = () => {
     if (productListStore.activeFilters[filterIndex]) {
         isChecked.value = true
     }
+}
+
+const handleChange = () => {
+    productListStore.clearChildren(props.input.children)
+    if(filterIndex !== -1) {
+        productListStore.clearFilterItem(filterIndex)
+    }
+    if (isChecked.value) {
+        productListStore.onChange({
+            name: props.input.name,
+            value: [props.input.options[0].value.toString()]
+        })
+    }
+}
+
+
+
+
+
+onMounted(() => {
+    readInputValueFromStore()
 })
 
 
@@ -39,13 +52,17 @@ const text = resolveComponent('FiltersInputsText')
 
 
 
-const inputTranslator = {
+const inputTranslator: Record<string, any> = {
     'checkbox-group': checkboxGroup,
     'checkbox': checkbox,
     'text': text,
     'dropdown': dropdown,
+    'select-one': dropdown,
     'range': range,
 }
+
+const inputChilds = computed(() => data.filter(filter => props.input.children?.includes(filter.name)))
+
 
 
 </script>
@@ -67,13 +84,13 @@ const inputTranslator = {
                     @change="handleChange"
                 >
                 <label :for="'checkbox_' + input.name" class="checkbox-label">
-                    {{ input.options[0].title }}
+                    {{ input.options ? input.options[0].title : '' }}
                 </label>
             </div>
         </div>
     </div>
-    <div v-if="input.childrenObjs.length > 0 && isChecked" class="mr-2">
-        <component v-for="(inputInfo, index) in input.childrenObjs" :key="input.childrenObjs.length + index + 'input-container'" :input="inputInfo" :is="inputTranslator[inputInfo.type]" />
+    <div v-if="inputChilds.length > 0 && isChecked" class="mr-2">
+        <component v-for="(inputInfo, index) in inputChilds" :key="inputChilds.length + index + 'input-container'" :input="inputInfo" :is="inputTranslator[inputInfo.type]" />
     </div>
 </template>
 
