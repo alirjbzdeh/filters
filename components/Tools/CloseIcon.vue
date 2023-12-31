@@ -22,8 +22,8 @@
     top: 2px;
     width: 100%;
     height: 2px;
-    background-color: white;
-    transition: transform 0.3s ease;
+    background-color: black;
+    transition: 0.3s ease;
 }
 .line1 {
     transform: rotate(45deg);

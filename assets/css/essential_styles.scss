@@ -34,6 +34,9 @@ $purpleShadow: 0px 0px 35px -12px rgba(124,74,124,1);
 .pt-1 {
     padding-top: 1rem;
 }
+.pl-1 {
+    padding-left: 1rem;
+}
 .mt-1 {
     margin-top: 1rem;
 }
@@ -46,6 +49,16 @@ $purpleShadow: 0px 0px 35px -12px rgba(124,74,124,1);
 .mr-3 {
     margin-right: 3rem;
 }
+.opa-0 {
+    opacity: 0;
+}
+.disable {
+    cursor: default !important;
+    button {
+        cursor: default !important;
+    }
+}
+
 .box-container {
     box-sizing: border-box;
     border-radius: 8px;
@@ -55,4 +68,7 @@ $purpleShadow: 0px 0px 35px -12px rgba(124,74,124,1);
     box-shadow: $purpleShadow;
     overflow: hidden;
 
+}
+.sub-filter {
+    margin-right: 3rem;
 }

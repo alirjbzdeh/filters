@@ -21,14 +21,14 @@ const props = defineProps({
     }
 })
 
-const selectedFilter = ref()
-selectedFilter.value = data.filter(filter => filter.name === props.filter.name)[0]
+const selectedFilter = computed(() => data.filter(filter => filter.name === props.filter.name)[0])
 
 
 const clearFilter = (filter: ActiveFilter, index: number) => {
     productListStore.clearChildren(selectedFilter.value.children)
-    
     productListStore.clearFilterItem(index)
+    console.log(productListStore.activeFilters);
+    
 }
 
 const filterValueTranslator = selectedFilter.value.options?.reduce((result: any, item: any) => {
@@ -40,7 +40,9 @@ const filterValueTranslator = selectedFilter.value.options?.reduce((result: any,
 </script>
 
 <template>
+<li>
     <button class="item" @click.prevent="clearFilter(filter, index)">
+        <ToolsCloseIcon />
         <span v-if="selectedFilter.type === 'range'">
             {{ selectedFilter.label + ':\xa0' + commafy(filter.value[0]) + '\xa0_\xa0' + commafy(filter.value[1]) }}
         </span>
@@ -50,11 +52,36 @@ const filterValueTranslator = selectedFilter.value.options?.reduce((result: any,
         <span v-else>
             {{ selectedFilter.label + ':\xa0' + filter.value.map(val => val) }}
         </span>
-        <ToolsCloseIcon />
     </button>
+</li>
 </template>
 
 
-<style lang="scss" scoped>
+<style lang="scss">
+.item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    gap: 4px;
+    padding: 8px 12px;
+    background-color: transparent;
+    border-radius: 8px;
+    transition: 0.3s ease;
+    color: black;
+    font-family: 'Bakh';
+    border: 1px solid transparent;
+    margin-bottom: 4px;
+    &:hover {
+        border-color:rgb(226, 68, 68);
+        color: rgb(226, 68, 68);
+        .line {
+            background-color: rgb(226, 68, 68);
+        }
+    }
+}
+li {
+    list-style: none;
+}
 
 </style>

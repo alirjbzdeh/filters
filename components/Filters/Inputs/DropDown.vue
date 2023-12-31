@@ -78,6 +78,7 @@ const inputTranslator: Record<string, any> = {
         <h4>
             {{ input.label }}
         </h4>
+        <div class="select-dropdown">
         <select class="dropdown-content" :id="'select_option_'+input.name" ref="selectedItem" :data-label="input.label" @change="handleChange">
             <option
                 name="همه"
@@ -94,8 +95,9 @@ const inputTranslator: Record<string, any> = {
                 {{ item.title }}
             </option>
         </select>
+        </div>
     </div>
-    <div v-if="relatetoValueChilds.length > 0 && (!!selectedItem?.value && selectedItem?.value !== 'clear')" class="mr-2">
+    <div v-if="relatetoValueChilds.length > 0 && (!!selectedItem?.value && selectedItem?.value !== 'clear')" class="sub-filter">
         <component v-for="(inputInfo, index) in relatetoValueChilds" :key="selectedItem.length + index + 'input-container'" :input="inputInfo" :is="inputTranslator[inputInfo.type]" />
     </div>
 </template>
@@ -126,17 +128,45 @@ const inputTranslator: Record<string, any> = {
     }
 }
 
-
-/* Style for the options within the select dropdown */
-option {
-  background-color: #fff; /* Background color of options */
-  color: #333; /* Text color of options */
-  padding: 8px;
+.select-dropdown {
+  position: relative;
+  background-color: #F5F6FF;
+  width: auto;
+  float: left;
+  max-width: 100%;
+  border-radius: 4px;
+  select {
+      cursor: pointer;
+      width: 100%;
+    font-family: "Bakh";
+    font-size: 1rem;
+    font-weight: 200;
+    max-width: 100%;
+    padding: 8px 24px 8px 10px;
+    border: none;
+    background-color: transparent;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    &:active,
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+  &:after {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    margin-top: -2px;
+    right: 8px;
+    width: 0; 
+    height: 0; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid black;
+  }
 }
 
-/* Style for the selected option */
-option:checked {
-  background-color: #f0f0f0; /* Background color of the selected option */
-  color: #333; /* Text color of the selected option */
-}
+
 </style>

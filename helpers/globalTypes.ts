@@ -1,6 +1,6 @@
 export type FilterValueType =  {
     title: string,
-    value: string
+    value: string | number
 }
 // NOTE : select-one type is as the same as dropdown
 export type inputTypes = 'checkbox' | 'range' | 'text' | 'select-one' | 'checkbox-group' | 'dropdown'

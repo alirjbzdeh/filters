@@ -1,10 +1,12 @@
 <template>
-    <button class="item" @click.prevent="productListStore.clearAllFilters">
+<li class="transition-delay-300">
+    <button class="delete-all-item item" @click.prevent="productListStore.clearAllFilters">
+        <ToolsCloseIcon />
         <span>
             حذف همه
         </span>
-        <ToolsCloseIcon />
     </button>
+</li>
 </template>
 
 <script setup lang="ts">
@@ -13,25 +15,16 @@ import { useProductList } from '~/store/productsFilter';
 const productListStore = useProductList()
 </script>
 
-<style scoped lang="scss">
-.item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    cursor: pointer;
-    gap: 4px;
-    padding: 4px 8px;
-    background-color: rgb(206, 107, 107);
-    border-radius: 8px;
-    height: max-content;
+<style lang="scss">
+.transition-delay-300 {
     transition: 300ms;
-    &:hover {
-        background-color: rgb(226, 68, 68);
-    }
-    span {
-        color: white;
-    }
+    transition-delay: 300ms !important;
 }
-
-
+.delete-all-item {
+        border:1px solid rgb(226, 68, 68) !important;
+        color: rgb(226, 68, 68) !important;
+        .line {
+            background-color: rgb(226, 68, 68);
+        }
+}
 </style>

@@ -45,39 +45,74 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="text-input-container">
-        <label :for="'inputField' + input.name">
+    <div class="form__group field">
+        <label :for="'inputField' + input.name" class="form__label">
             {{ input.label }}
         </label>
-        <input v-model="inputVal" type="text" :id="'inputField' + input.name" :name="input.name" class="styled-input" :placeholder="input.label" :data-label="input.label" @input="handlerDebouncer">
+        <input v-model="inputVal" type="text" :id="'inputField' + input.name" :name="input.name" class="form__field" :placeholder="input.label" :data-label="input.label" @input="handlerDebouncer">
     </div>
 </template>
 
 <style lang="scss" scoped>
-.text-input-container {
-    border-bottom: 1px solid #86A9E1;
-    padding-bottom: 16px;
+$primary: #11998e;
+$secondary: #38ef7d;
+$white: #fff;
+$gray: #9b9b9b;
+$purple: #3347B0;
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 50%;
 }
 
-.styled-input {
-  padding: 10px;
-  border: 1px solid #D3D3D3;
-  border-radius: 4px;
+.form__field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid $gray;
+  outline: 0;
   font-size: 16px;
-  width: 250px;
+  color: black;
+  padding: 7px 0;
+  background: transparent;
+  transition: 0.3s ease;
+
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:placeholder-shown ~ .form__label {
+    font-size: 16px;
+    cursor: text;
+    top: 20px;
+  }
 }
 
-.styled-input:focus {
-  outline: none;
-  border-color: #3D6CB9;
-}
-
-/* Label styles */
-label {
-  color: #273469;
-  margin-bottom: 5px;
+.form__label {
+  position: absolute;
+  top: 0;
   display: block;
+  transition: 0.2s;
   font-size: 14px;
-  font-weight: bold;
+  color: $gray;
+}
+
+.form__field:focus {
+  ~ .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 14px;
+    color: $primary;
+    font-weight:700;    
+  }
+  border-color: $purple;
+  border-image-slice: 1;
+}
+/* reset input */
+.form__field{
+  &:required,&:invalid { box-shadow:none; }
 }
 </style>

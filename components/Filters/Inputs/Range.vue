@@ -41,15 +41,15 @@ const handleChange = () => {
 
 // range input
 const data = ref({
-    slider1: props.input.options[0].value,
-    slider2: props.input.options[1].value,
+    slider1: props.input.options![0].value,
+    slider2: props.input.options![1].value,
 })
 
 
 const fillColor = () => {
-    let percent1 = (data.value.slider1 / slider1Ref.value.max) * 100
-    let percent2 = (data.value.slider2 / slider1Ref.value.max) * 100
-    sliderTrackRef.value.style.background = `linear-gradient(to left, #f7f7f7 ${percent1}%, #EC3F2C ${percent1}%, #EC3F2C ${percent2}%, #f7f7f7 ${percent2}%)`
+    let percent1 = (Number(data.value.slider1) / slider1Ref.value.max) * 100
+    let percent2 = (Number(data.value.slider2) / slider1Ref.value.max) * 100
+    sliderTrackRef.value.style.background = `linear-gradient(to left, #f7f7f7 ${percent1}%, #3347B0 ${percent1}%, #3347B0 ${percent2}%, #f7f7f7 ${percent2}%)`
 }
 
 const handleChangeDebouncer = debounce(handleChange, 500)
@@ -132,7 +132,7 @@ onMounted(() => {
     background: currentcolor;
     border: none;
     /* get rid of Firefox thumb border */
-    background: linear-gradient(226.98deg, #EC3F2C -2.95%, #FBE51C 305.28%);
+    background: linear-gradient(263deg, #626FF2 0%, #3347B0 105.81%);
     border-radius: 2px;
     transform: rotate(-45deg) translateY(0px);
     pointer-events: auto;

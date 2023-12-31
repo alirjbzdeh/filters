@@ -30,7 +30,7 @@ const handleChange = () => {
     if (isChecked.value) {
         productListStore.onChange({
             name: props.input.name,
-            value: [props.input.options[0].value.toString()]
+            value: [props.input.options![0].value.toString()]
         })
     }
 }
@@ -89,9 +89,11 @@ const inputChilds = computed(() => data.filter(filter => props.input.children?.i
             </div>
         </div>
     </div>
-    <div v-if="inputChilds.length > 0 && isChecked" class="mr-2">
-        <component v-for="(inputInfo, index) in inputChilds" :key="inputChilds.length + index + 'input-container'" :input="inputInfo" :is="inputTranslator[inputInfo.type]" />
-    </div>
+    <transition name="fade">
+        <div v-if="inputChilds.length > 0 && isChecked" class="sub-filter">
+            <component v-for="(inputInfo, index) in inputChilds" :key="inputChilds.length + index + 'input-container'" :input="inputInfo" :is="inputTranslator[inputInfo.type]" />
+        </div>
+    </transition>
 </template>
 
 <style lang="scss" scoped>
